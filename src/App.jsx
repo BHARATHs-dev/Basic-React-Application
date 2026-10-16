@@ -141,83 +141,342 @@
 // export default App;
 
 
-import React, { useState, useEffect } from 'react';
-import './App.css';
+// import React, { useState, useEffect } from 'react';
+// import './App.css';
+
+// const App = () => {
+//   const [counter, setCounter] = useState(0);
+//   const [data, setData] = useState([]);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const response = await fetch(
+//         'https://jsonplaceholder.typicode.com/users'
+//       );
+//       const users = await response.json();
+//       setData(users);
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   return (
+//     <div>
+//       <label>Counter: {counter}</label>
+
+//       <button onClick={() => setCounter(counter + 1)}>
+//         Increment
+//       </button>
+      
+//       <button onClick={() => setCounter(counter - 1)}>
+//         Decrement
+//       </button>
+
+//       <h1 className="title">User Details</h1>
+
+//       <div>
+//         {data.map((user) => (
+//           <div className="form" key={user.id}>
+//             <h2>User Details</h2>
+
+//             <label>Name</label>
+//             <input value={user.name} readOnly />
+
+//             <label>Email</label>
+//             <input value={user.email} readOnly />
+
+//             <label>Phone</label>
+//             <input value={user.phone} readOnly />
+
+//             <label>Street</label>
+//             <input value={user.address.street} readOnly />
+
+//             <label>City</label>
+//             <input value={user.address.city} readOnly />
+
+//             <label>Zip</label>
+//             <input value={user.address.zipcode} readOnly />
+
+//             <label>Suite</label>
+//             <input value={user.address.suite} readOnly />
+
+//             <label>Latitude</label>
+//             <input value={user.address.geo.lat} readOnly />
+
+//             <label>Longitude</label>
+//             <input value={user.address.geo.lng} readOnly />
+
+//             <label>Geo</label>
+//             <input
+//               value={JSON.stringify(user.address.geo)}
+//               readOnly
+//             />
+
+//             <label>Company</label>
+//             <input value={user.company.name} readOnly />
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default App;
+
+
+
+// task to use the open api to fetch the data and images 
+// import { useState, useEffect } from "react";
+// import "./App.css";
+// import formattedObject from "./Title.jsx";
+
+// const App = () => {
+//   const [counter, setCounter] = useState(0);
+//   const [data, setData] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [searchTerm, setSearchTerm] = useState("");
+//   const [success, setSuccess] = useState(false);
+//   const [status, setStatus] = useState(null);
+
+//   console.log(formattedObject);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const response = await fetch(
+//         "https://dummyjson.com/products?limit=12"
+//         // "https://dummyjson.com/invalid-url"
+//       );
+
+//       console.log(response, "response");
+
+//       setStatus(response.status);
+
+//       if (!response.ok) {
+//         setError("Failed to fetch products");
+//         setLoading(false);
+//         return;
+//       }
+
+//       const products = await response.json();
+
+//       console.log(products, "products");
+
+//       setData(products.products);
+//       setSuccess(true);
+//       setLoading(false);
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   const filteredData = data.filter((product) =>
+//     product.title.toLowerCase().includes(searchTerm.toLowerCase())
+//   );
+
+//   if (loading) {
+//     return <h1>Loading...</h1>;
+//   }
+
+//   if (error) {
+//     return <h1>Error: {error}</h1>;
+//   }
+
+//   return (
+//     <div className="container">
+//       <h1>Product Store</h1>
+
+//       <p>HTTP Status: {status}</p>
+
+//       {success && <p>Products loaded successfully!</p>}
+
+//       <input 
+//   type="text"
+//   placeholder="Search products..."
+//   value={searchTerm}
+//   onChange={(e) => {
+//     setSearchTerm(e.target.value);
+//     console.log("Search Value:", e.target.value);
+//   }}
+// />
+    
+//       <div className="product-grid">
+//         {filteredData.length > 0 ? (
+//           filteredData.map((product) => (
+//             <div className="card" key={product.id}>
+//               <img
+//                 src={product.thumbnail}
+//                 alt={product.title}
+//               />
+
+//               <h3>{product.title}</h3>
+//               <p>{product.description}</p>
+//               <h4>Price: ${product.price}</h4>
+//               <p>Rating: {product.rating}</p>
+
+//               <a
+//                 href={product.images[0]}
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//               >
+//                 View Product
+//               </a>
+//             </div>
+//           ))
+//         ) : (
+//           <p>No products found.</p>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default App;
+
+  
+
+//parent:owns the state
+
+// import { useState } from "react";
+// import Title from "./Title.jsx";
+
+// function App() {
+//   const [count, setCount] = useState(0);
+//   return (
+//     <div>
+//       <Title count={count} />
+//       <button onClick={() => setCount(count + 1)}>Count is {count}</button>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+
+
+
+import { useState } from "react";
 
 const App = () => {
-  const [counter, setCounter] = useState(0);
-  const [data, setData] = useState([]);
+  const [form, setForm] = useState({
+    firstName: "",
+    email: "",
+    password: "",
+    age: "",
+    phone: "",
+    course: "react",
+    address: "",
+    city: "",
+    file: "",
+  });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(
-        'https://jsonplaceholder.typicode.com/users'
-      );
-      const users = await response.json();
-      setData(users);
-    };
+  const [submitted, setSubmitted] = useState(false);
 
-    fetchData();
-  }, []);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm((prev) => {
+      return { ...prev, [name]: value };
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    console.log("Form Data:", form);
+  };
 
   return (
-    <div>
-      <label>Counter: {counter}</label>
+    <>
+      <form onSubmit={handleSubmit}>
+        <input
+          name="firstName"
+          value={form.firstName}
+          onChange={handleChange}
+          placeholder="Enter first name"
+          required
+        />
+        <br></br>
 
-      <button onClick={() => setCounter(counter + 1)}>
-        Increment
-      </button>
-      
-      <button onClick={() => setCounter(counter - 1)}>
-        Decrement
-      </button>
+        <input
+          type="email"
+          name="email"
+          value={form.email}
+          onChange={handleChange}
+          placeholder="Enter email"
+          required
+        />
+        <br></br>
 
-      <h1 className="title">User Details</h1>
+        <input
+          type="password"
+          name="password"
+          value={form.password}
+          onChange={handleChange}
+          placeholder="Enter password"
+          required
+        />
+        <br></br>
 
-      <div>
-        {data.map((user) => (
-          <div className="form" key={user.id}>
-            <h2>User Details</h2>
+        <input
+          type="number"
+          name="age"
+          value={form.age}
+          onChange={handleChange}
+          placeholder="Enter age"
+          required
+        />
+        <br></br>
 
-            <label>Name</label>
-            <input value={user.name} readOnly />
+        <input
+          type="tel"
+          name="phone"
+          value={form.phone}
+          onChange={handleChange}
+          placeholder="Enter phone"
+          required
+        />
+        
+        <br></br>
+        <input type="address" name="address" value={form.address} onChange={handleChange} placeholder="Enter address" required /> 
+        <br></br>
+        <input type="city" name="city" value={form.city} onChange={handleChange} placeholder="Enter city" required /> 
+        <br></br>
+        <input type="file" name="file" value={form.file} onChange={handleChange} placeholder="Enter file" required /> 
+        <br></br>
 
-            <label>Email</label>
-            <input value={user.email} readOnly />
+        <label htmlFor="course">Select a course:</label>
 
-            <label>Phone</label>
-            <input value={user.phone} readOnly />
+        <select
+          id="course"
+          name="course"
+          value={form.course}
+          onChange={handleChange}
+        >
+          <option value="react">React</option>
+          <option value="vue">Vue</option>
+          <option value="angular">Angular</option>
+        </select>
+        <br></br>
 
-            <label>Street</label>
-            <input value={user.address.street} readOnly />
+        <button type="submit">Submit</button>
+      </form>
 
-            <label>City</label>
-            <input value={user.address.city} readOnly />
-
-            <label>Zip</label>
-            <input value={user.address.zipcode} readOnly />
-
-            <label>Suite</label>
-            <input value={user.address.suite} readOnly />
-
-            <label>Latitude</label>
-            <input value={user.address.geo.lat} readOnly />
-
-            <label>Longitude</label>
-            <input value={user.address.geo.lng} readOnly />
-
-            <label>Geo</label>
-            <input
-              value={JSON.stringify(user.address.geo)}
-              readOnly
-            />
-
-            <label>Company</label>
-            <input value={user.company.name} readOnly />
-          </div>
-        ))}
-      </div>
-    </div>
+      {submitted && (
+        <>
+          <h3>Form Output</h3>
+          <p>First Name: {form.firstName}</p>
+          <p>Email: {form.email}</p>
+          <p>Age: {form.age}</p>
+          <p>Phone: {form.phone}</p>
+          <p>Password: {form.password}</p>
+          <p>Address: {form.address}</p>
+          <p>City: {form.city}</p>
+          <p>File: {form.file}</p>
+          <p>Course: {form.course}</p>
+        </>
+      )}
+    </>
   );
 };
 
