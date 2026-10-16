@@ -355,7 +355,136 @@
 
 
 
-import { useState } from "react";
+// import { useState } from "react";
+
+// const App = () => {
+//   const [form, setForm] = useState({
+//     firstName: "",
+//     email: "",
+//     password: "",
+//     age: "",
+//     phone: "",
+//     course: "react",
+//     address: "",
+//     city: "",
+//     file: "",
+//   });
+
+//   const [submitted, setSubmitted] = useState(false);
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+
+//     setForm((prev) => {
+//       return { ...prev, [name]: value };
+//     });
+//   };
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     setSubmitted(true);
+//     console.log("Form Data:", form);
+//   };
+
+//   return (
+//     <>
+//       <form onSubmit={handleSubmit}>
+//         <input
+//           name="firstName"
+//           value={form.firstName}
+//           onChange={handleChange}
+//           placeholder="Enter first name"
+//           required
+//         />
+//         <br></br>
+
+//         <input
+//           type="email"
+//           name="email"
+//           value={form.email}
+//           onChange={handleChange}
+//           placeholder="Enter email"
+//           required
+//         />
+//         <br></br>
+
+//         <input
+//           type="password"
+//           name="password"
+//           value={form.password}
+//           onChange={handleChange}
+//           placeholder="Enter password"
+//           required
+//         />
+//         <br></br>
+
+//         <input
+//           type="number"
+//           name="age"
+//           value={form.age}
+//           onChange={handleChange}
+//           placeholder="Enter age"
+//           required
+//         />
+//         <br></br>
+
+//         <input
+//           type="tel"
+//           name="phone"
+//           value={form.phone}
+//           onChange={handleChange}
+//           placeholder="Enter phone"
+//           required
+//         />
+        
+//         <br></br>
+//         <input type="address" name="address" value={form.address} onChange={handleChange} placeholder="Enter address" required /> 
+//         <br></br>
+//         <input type="city" name="city" value={form.city} onChange={handleChange} placeholder="Enter city" required /> 
+//         <br></br>
+//         <input type="file" name="file" value={form.file} onChange={handleChange} placeholder="Enter file" required /> 
+//         <br></br>
+
+//         <label htmlFor="course">Select a course:</label>
+
+//         <select
+//           id="course"
+//           name="course"
+//           value={form.course}
+//           onChange={handleChange}
+//         >
+//           <option value="react">React</option>
+//           <option value="vue">Vue</option>
+//           <option value="angular">Angular</option>
+//         </select>
+//         <br></br>
+
+//         <button type="submit">Submit</button>
+//       </form>
+
+//       {submitted && (
+//         <>
+//           <h3>Form Output</h3>
+//           <p>First Name: {form.firstName}</p>
+//           <p>Email: {form.email}</p>
+//           <p>Age: {form.age}</p>
+//           <p>Phone: {form.phone}</p>
+//           <p>Password: {form.password}</p>
+//           <p>Address: {form.address}</p>
+//           <p>City: {form.city}</p>
+//           <p>File: {form.file}</p>
+//           <p>Course: {form.course}</p>
+//         </>
+//       )}
+//     </>
+//   );
+// };
+
+// export default App;
+
+
+
+import { useState, useEffect } from "react";
 
 const App = () => {
   const [form, setForm] = useState({
@@ -365,12 +494,26 @@ const App = () => {
     age: "",
     phone: "",
     course: "react",
-    address: "",
-    city: "",
-    file: "",
   });
 
+  const [users, setUsers] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    async function loadUsers() {
+      const res = await fetch(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+
+      const usersData = await res.json();
+
+      console.log(usersData[0].name);
+
+      setUsers(usersData);
+    }
+
+    loadUsers();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -380,10 +523,29 @@ const App = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const res = await fetch(
+      "https://jsonplaceholder.typicode.com/users",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      }
+    );
+
+    const result = await res.json();
+
+    console.log("API Response:", result);
+
+    const updatedUsers = [...users];
+    updatedUsers.push(result);
+
+    setUsers(updatedUsers);
     setSubmitted(true);
-    console.log("Form Data:", form);
   };
 
   return (
@@ -396,7 +558,7 @@ const App = () => {
           placeholder="Enter first name"
           required
         />
-        <br></br>
+        <br />
 
         <input
           type="email"
@@ -406,7 +568,7 @@ const App = () => {
           placeholder="Enter email"
           required
         />
-        <br></br>
+        <br />
 
         <input
           type="password"
@@ -416,7 +578,7 @@ const App = () => {
           placeholder="Enter password"
           required
         />
-        <br></br>
+        <br />
 
         <input
           type="number"
@@ -426,7 +588,7 @@ const App = () => {
           placeholder="Enter age"
           required
         />
-        <br></br>
+        <br />
 
         <input
           type="tel"
@@ -436,14 +598,7 @@ const App = () => {
           placeholder="Enter phone"
           required
         />
-        
-        <br></br>
-        <input type="address" name="address" value={form.address} onChange={handleChange} placeholder="Enter address" required /> 
-        <br></br>
-        <input type="city" name="city" value={form.city} onChange={handleChange} placeholder="Enter city" required /> 
-        <br></br>
-        <input type="file" name="file" value={form.file} onChange={handleChange} placeholder="Enter file" required /> 
-        <br></br>
+        <br />
 
         <label htmlFor="course">Select a course:</label>
 
@@ -457,7 +612,7 @@ const App = () => {
           <option value="vue">Vue</option>
           <option value="angular">Angular</option>
         </select>
-        <br></br>
+        <br />
 
         <button type="submit">Submit</button>
       </form>
@@ -465,17 +620,22 @@ const App = () => {
       {submitted && (
         <>
           <h3>Form Output</h3>
-          <p>First Name: {form.firstName}</p>
-          <p>Email: {form.email}</p>
-          <p>Age: {form.age}</p>
-          <p>Phone: {form.phone}</p>
-          <p>Password: {form.password}</p>
-          <p>Address: {form.address}</p>
-          <p>City: {form.city}</p>
-          <p>File: {form.file}</p>
-          <p>Course: {form.course}</p>
+          <p>First Name: {users[users.length - 1]?.firstName}</p>
+          <p>Email: {users[users.length - 1]?.email}</p>
+          <p>Age: {users[users.length - 1]?.age}</p>
+          <p>Phone: {users[users.length - 1]?.phone}</p>
+          <p>Course: {users[users.length - 1]?.course}</p>
+          <p>API ID: {users[users.length - 1]?.id}</p>
         </>
       )}
+
+      <h3>Users List ({users.length})</h3>
+
+      {users.map((user, index) => (
+        <p key={user.id ?? index}>
+          {user.firstName ?? user.name} - {user.email}
+        </p>
+      ))}
     </>
   );
 };
